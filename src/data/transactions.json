@@ -1,0 +1,58 @@
+[
+  { 
+    "id": "1", 
+    "userName": "Ahmad Fajar", 
+    "itemName": "Laptop HP EliteBook", 
+    "startDate": "2025-05-10", 
+    "endDate": "2025-05-17", 
+    "status": "request" 
+  },
+  { 
+    "id": "2", 
+    "userName": "Dewi Sartika", 
+    "itemName": "Proyektor Epson", 
+    "startDate": "2025-05-15", 
+    "endDate": "2025-05-18", 
+    "status": "in-progress" 
+  },
+  { 
+    "id": "3", 
+    "userName": "Budi Santoso", 
+    "itemName": "Kamera Canon EOS", 
+    "startDate": "2025-05-20", 
+    "endDate": "2025-05-23", 
+    "status": "return" 
+  },
+  { 
+    "id": "4", 
+    "userName": "Rina Wijaya", 
+    "itemName": "iPad Pro", 
+    "startDate": "2025-05-05", 
+    "endDate": "2025-05-12", 
+    "status": "completed" 
+  },
+  { 
+    "id": "5", 
+    "userName": "Hadi Prasetyo", 
+    "itemName": "Microphone Wireless", 
+    "startDate": "2025-05-18", 
+    "endDate": "2025-05-20", 
+    "status": "request" 
+  },
+  { 
+    "id": "6", 
+    "userName": "Nita Anggraini", 
+    "itemName": "Tripod Kamera", 
+    "startDate": "2025-05-14", 
+    "endDate": "2025-05-21", 
+    "status": "in-progress" 
+  },
+  { 
+    "id": "7", 
+    "userName": "Rudi Hermawan", 
+    "itemName": "Scanner Document", 
+    "startDate": "2025-05-08", 
+    "endDate": "2025-05-15", 
+    "status": "completed" 
+  }
+]
