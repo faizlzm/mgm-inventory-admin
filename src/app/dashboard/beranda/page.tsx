@@ -16,8 +16,10 @@ import {  Drawer,
 } from "@/components/ui/drawer"
 import { PlusIcon, Pencil1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { InfoCard } from "@/components/ui/info-card"
 
 import itemsData from "@/data/items.json"
+import aturanData from "@/data/aturan.json"
 
 interface Item {
   id: number;
@@ -27,6 +29,13 @@ interface Item {
   jumlah_peminjam: number;
 }
 
+interface InfoData {
+  id: string;
+  title: string;
+  imageUrl: string;
+  content: string;
+}
+
 export default function BerandaPage() {
   const [items, setItems] = useState<Item[]>(itemsData.items)
   const [filteredItems, setFilteredItems] = useState<Item[]>(itemsData.items)
@@ -34,6 +43,7 @@ export default function BerandaPage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [currentItem, setCurrentItem] = useState<Item | null>(null)
   const [isAddMode, setIsAddMode] = useState<boolean>(false)
+    const [infoData, setInfoData] = useState<InfoData[]>(aturanData.info)
   
   // Filter items when search query changes
   useEffect(() => {
@@ -77,14 +87,37 @@ export default function BerandaPage() {
       setIsDrawerOpen(false)
     }
   }
-    return (
-    <div className="flex flex-col gap-4">      <div className="flex justify-between items-center">
+
+  const handleSaveInfoCard = async (id: string, imageFile: File | null, content: string) => {
+    // Simulate API call with a delay
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        // In a real application, you would upload the image and save the content to your backend
+        setInfoData(prev => prev.map(item => {
+          if (item.id === id) {
+            return {
+              ...item,
+              content,
+              // In a real application, the imageUrl would come from your backend after upload
+              imageUrl: imageFile ? URL.createObjectURL(imageFile) : item.imageUrl
+            }
+          }
+          return item
+        }))
+        resolve()
+      }, 1000)
+    })
+  }
+  
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-between items-center">
         <SectionOverview
           title="Statistik Peminjaman"
           description="placeholder desc"
         />
       </div>
-        <div className="bg-white p-4 rounded-xl shadow">
+      <div className="bg-white p-4 rounded-xl shadow">
         <div className="flex items-center justify-between mb-4">
           <div className="relative flex-1 max-w-sm">
             <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -135,15 +168,16 @@ export default function BerandaPage() {
         description="placeholder desc"
       />
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="bg-muted/50 aspect-video rounded-xl flex items-center justify-center">
-          <span className="text-muted-foreground">alur peminjaman</span>
-        </div>
-        <div className="bg-muted/50 aspect-video rounded-xl flex items-center justify-center">
-          <span className="text-muted-foreground">Alur pengembalian</span>
-        </div>
-        <div className="bg-muted/50 aspect-video rounded-xl flex items-center justify-center">
-          <span className="text-muted-foreground">Detail sanksi</span>
-        </div>
+        {infoData.map((info) => (
+          <InfoCard
+            key={info.id}
+            id={info.id}
+            title={info.title}
+            imageUrl={info.imageUrl}
+            content={info.content}
+            onSave={handleSaveInfoCard}
+          />
+        ))}
       </div>
       
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
@@ -155,7 +189,8 @@ export default function BerandaPage() {
             </DrawerDescription>
           </DrawerHeader>
           <div className="p-4">
-            <div className="grid gap-4">              <div className="grid gap-2">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
                 <Label htmlFor="no">No Item</Label>
                 <Input 
                   id="no" 

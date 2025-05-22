@@ -1,0 +1,22 @@
+{
+  "info": [
+    {
+      "id": "alur-peminjaman",
+      "title": "Alur Peminjaman",
+      "imageUrl": "/images/alur-peminjaman.png",
+      "content": "# Alur Peminjaman\n\n1. Ajukan permintaan peminjaman\n2. Tunggu persetujuan admin\n3. Ambil barang sesuai jadwal\n4. Kembalikan tepat waktu"
+    },
+    {
+      "id": "alur-pengembalian",
+      "title": "Alur Pengembalian",
+      "imageUrl": "/images/alur-pengembalian.png",
+      "content": "# Alur Pengembalian\n\n1. Bawa barang ke admin\n2. Lakukan pemeriksaan kondisi\n3. Konfirmasi pengembalian\n4. Terima bukti pengembalian"
+    },
+    {
+      "id": "detail-sanksi",
+      "title": "Detail Sanksi",
+      "imageUrl": "/images/detail-sanksi.png",
+      "content": "# Detail Sanksi\n\n- Keterlambatan: denda per hari\n- Kerusakan ringan: biaya perbaikan\n- Kerusakan berat: ganti rugi\n- Kehilangan: ganti rugi penuh"
+    }
+  ]
+}
