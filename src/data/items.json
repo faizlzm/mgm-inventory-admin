@@ -1,0 +1,74 @@
+{
+    "items": [
+        {
+            "id": 1,
+            "no": "IT001",
+            "nama": "Laptop Dell XPS 13",
+            "jumlah_tersedia": 5,
+            "jumlah_peminjam": 2
+        },
+        {
+            "id": 2,
+            "no": "IT002",
+            "nama": "Monitor LG 24\"",
+            "jumlah_tersedia": 10,
+            "jumlah_peminjam": 3
+        },
+        {
+            "id": 3,
+            "no": "IT003",
+            "nama": "Keyboard Mechanical RGB",
+            "jumlah_tersedia": 8,
+            "jumlah_peminjam": 4
+        },
+        {
+            "id": 4,
+            "no": "IT004",
+            "nama": "Mouse Wireless Logitech",
+            "jumlah_tersedia": 15,
+            "jumlah_peminjam": 5
+        },
+        {
+            "id": 5,
+            "no": "IT005",
+            "nama": "Proyektor Epson",
+            "jumlah_tersedia": 3,
+            "jumlah_peminjam": 1
+        },
+        {
+            "id": 6,
+            "no": "IT006",
+            "nama": "PlayStation 5 Console",
+            "jumlah_tersedia": 2,
+            "jumlah_peminjam": 1
+        },
+        {
+            "id": 7,
+            "no": "IT007",
+            "nama": "Oculus Quest 2 VR Headset",
+            "jumlah_tersedia": 4,
+            "jumlah_peminjam": 2
+        },
+        {
+            "id": 8,
+            "no": "IT008",
+            "nama": "Nintendo Switch",
+            "jumlah_tersedia": 3,
+            "jumlah_peminjam": 1
+        },
+        {
+            "id": 9,
+            "no": "IT009",
+            "nama": "Android Development Phone",
+            "jumlah_tersedia": 6,
+            "jumlah_peminjam": 2
+        },
+        {
+            "id": 10,
+            "no": "IT010",
+            "nama": "iPhone for Mobile Testing",
+            "jumlah_tersedia": 5,
+            "jumlah_peminjam": 3
+        }
+    ]
+}
