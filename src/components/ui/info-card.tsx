@@ -5,13 +5,9 @@ import Image from "next/image"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Pencil1Icon, CheckIcon, UploadIcon, Cross2Icon } from "@radix-ui/react-icons"
-import dynamic from "next/dynamic"
+import { Pencil1Icon, CheckIcon, UploadIcon, Cross2Icon, FontBoldIcon, FontItalicIcon, ListBulletIcon, HeadingIcon } from "@radix-ui/react-icons"
 import ReactMarkdown from "react-markdown"
 import "@/app/markdown-styles.css"
-import "easymde/dist/easymde.min.css"
-
-const SimpleMDE = dynamic(() => import("react-simplemde-editor"), { ssr: false })
 
 interface InfoCardProps {
   id: string
@@ -114,20 +110,100 @@ export function InfoCard({ id, title, imageUrl = "", content = "", onSave }: Inf
               </div>
             )}
           </div>
-          
-          {isEditing ? (
+            {isEditing ? (
             <div className="min-h-[150px]">
-              <SimpleMDE
+              <div className="mb-2 flex gap-2 border-b pb-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => {
+                    const textarea = document.getElementById(`content-${id}`) as HTMLTextAreaElement;
+                    if (textarea) {
+                      const start = textarea.selectionStart;
+                      const end = textarea.selectionEnd;
+                      const selectedText = textarea.value.substring(start, end);
+                      const newText = `**${selectedText}**`;
+                      const newContent = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+                      setCurrentContent(newContent);
+                      textarea.focus();
+                    }
+                  }}
+                >
+                  <FontBoldIcon className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => {
+                    const textarea = document.getElementById(`content-${id}`) as HTMLTextAreaElement;
+                    if (textarea) {
+                      const start = textarea.selectionStart;
+                      const end = textarea.selectionEnd;
+                      const selectedText = textarea.value.substring(start, end);
+                      const newText = `*${selectedText}*`;
+                      const newContent = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+                      setCurrentContent(newContent);
+                      textarea.focus();
+                    }
+                  }}
+                >
+                  <FontItalicIcon className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => {
+                    const textarea = document.getElementById(`content-${id}`) as HTMLTextAreaElement;
+                    if (textarea) {
+                      const start = textarea.selectionStart;
+                      const newText = "\n- Item";
+                      const newContent = textarea.value.substring(0, start) + newText + textarea.value.substring(start);
+                      setCurrentContent(newContent);
+                      textarea.focus();
+                    }
+                  }}
+                >
+                  <ListBulletIcon className="h-4 w-4" />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0"
+                  onClick={() => {
+                    const textarea = document.getElementById(`content-${id}`) as HTMLTextAreaElement;
+                    if (textarea) {
+                      const start = textarea.selectionStart;
+                      const end = textarea.selectionEnd;
+                      const selectedText = textarea.value.substring(start, end);
+                      const newText = `\n## ${selectedText}`;
+                      const newContent = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+                      setCurrentContent(newContent);
+                      textarea.focus();
+                    }
+                  }}
+                >
+                  <HeadingIcon className="h-4 w-4" />
+                </Button>
+              </div>
+              <textarea
+                id={`content-${id}`}
                 value={currentContent}
-                onChange={setCurrentContent}
-                options={{
-                  placeholder: "Tulis deskripsi disini...",
-                  spellChecker: false,
-                  status: false,
-                  minHeight: "150px",
-                }}
+                onChange={(e) => setCurrentContent(e.target.value)}
+                className="w-full h-[150px] p-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Tulis deskripsi disini..."
               />
-            </div>          ) : (
+              <div className="mt-2 text-xs text-muted-foreground">
+                <p>Gunakan Markdown: <strong>**tebal**</strong>, <em>*miring*</em>, ## Judul, - Daftar</p>
+              </div>
+            </div>
+          ) : (
             <div className="prose prose-sm max-w-none">
               {currentContent ? (
                 <ReactMarkdown>{currentContent}</ReactMarkdown>

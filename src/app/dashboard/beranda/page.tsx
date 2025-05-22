@@ -136,24 +136,24 @@ export default function BerandaPage() {
         <ScrollArea className="h-[400px] rounded-md border">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>No</TableHead>
-                <TableHead>Nama Barang</TableHead>
-                <TableHead>Jumlah Tersedia</TableHead>
-                <TableHead>Jumlah Peminjam</TableHead>
-                <TableHead className="text-right">Aksi</TableHead>
+              <TableRow className="bg-muted/50">
+                <TableHead className="w-[80px] py-3">No</TableHead>
+                <TableHead className="py-3">Nama Barang</TableHead>
+                <TableHead className="py-3">Jumlah Tersedia</TableHead>
+                <TableHead className="py-3">Jumlah Peminjam</TableHead>
+                <TableHead className="text-right py-3 w-[120px]">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredItems.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.no}</TableCell>
-                  <TableCell>{item.nama}</TableCell>
-                  <TableCell>{item.jumlah_tersedia}</TableCell>
-                  <TableCell>{item.jumlah_peminjam}</TableCell>
-                  <TableCell className="text-right">
+                <TableRow key={item.id} className="hover:bg-muted/30">
+                  <TableCell className="py-3 font-medium">{item.no}</TableCell>
+                  <TableCell className="py-3">{item.nama}</TableCell>
+                  <TableCell className="py-3">{item.jumlah_tersedia}</TableCell>
+                  <TableCell className="py-3">{item.jumlah_peminjam}</TableCell>
+                  <TableCell className="text-right py-3">
                     <Button variant="outline" size="sm" onClick={() => handleEditItem(item)}>
-                      <Pencil1Icon /> Edit
+                      <Pencil1Icon className="mr-1 h-4 w-4" /> Edit
                     </Button>
                   </TableCell>
                 </TableRow>
