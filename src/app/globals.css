@@ -120,3 +120,54 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Markdown styling */
+.prose {
+  @apply max-w-full text-inherit;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-inherit font-semibold mb-2 mt-4;
+}
+
+.prose h1 {
+  @apply text-xl;
+}
+
+.prose h2 {
+  @apply text-lg;
+}
+
+.prose p {
+  @apply my-2;
+}
+
+.prose ul,
+.prose ol {
+  @apply my-2 pl-5;
+}
+
+.prose li {
+  @apply my-1;
+}
+
+.prose a {
+  @apply text-primary underline;
+}
+
+.prose blockquote {
+  @apply italic border-l-2 border-muted pl-4 ml-0;
+}
+
+.prose code {
+  @apply bg-muted px-1 py-0.5 rounded;
+}
+
+.prose pre {
+  @apply bg-muted p-4 rounded-md overflow-x-auto;
+}

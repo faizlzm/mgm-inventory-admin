@@ -3,18 +3,18 @@
 import * as React from "react"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
-import { HomeIcon, DatabaseIcon, ShieldIcon } from "lucide-react"
+import { HomeIcon, DatabaseIcon, ShieldIcon, Menu } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
 
@@ -27,10 +27,9 @@ const data = {
           title: "Beranda",
           url: "/dashboard/beranda",
           icon: <HomeIcon className="size-5" />,
-        },
-        {
-          title: "Data",
-          url: "/dashboard/data",
+        },        {
+          title: "Status",
+          url: "/dashboard/status",
           icon: <DatabaseIcon className="size-5" />,
         },
         {
@@ -48,51 +47,66 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   useSidebar()
   
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader className="flex items-center justify-center pb-4">
-        {/* App logo or brand */}
-      </SidebarHeader>
-      
-      {/* The key changes are in this SidebarContent component */}      <SidebarContent className="mt-4 flex-grow flex flex-col justify-center gap-6">
-        {/* We create a SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
-          <SidebarGroup key={item.items[0].title} className="w-full">
+    <Sidebar collapsible="icon" {...props} className="bg-purple-100 text-purple-800">
+      <SidebarContent className="flex flex-col h-full bg-purple-100">
+        {/* Toggle button at the top */}
+        <div className="py-4">
+          <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu className="flex flex-col items-center gap-4">
-                {item.items.map((item) => {
-                  // Check if current path matches this item's URL or if at dashboard root and item is Beranda
-                  const isActive = 
-                    pathname === item.url || 
-                    (pathname === "/dashboard" && item.title === "Beranda") ||
-                    (pathname.startsWith(item.url + "/"));
-                  
-                  return (
-                    <SidebarMenuItem key={item.title} className="w-full mb-2">
-                      <SidebarMenuButton 
-                        asChild 
-                        isActive={isActive}
-                        tooltip={item.title} // Shows tooltip when collapsed
-                        className="flex justify-center"
-                        size="lg" // Using larger size for better touch targets
-                      >
-                        <Link href={item.url} className="flex items-center justify-center sm:justify-start gap-3 w-full">
-                          {/* Icon will stay visible and centered when collapsed */}
-                          <span className="flex-shrink-0 flex items-center justify-center w-6">
-                            {item.icon}
-                          </span>
-                          {/* Text will be hidden when collapsed */}
-                          <span className="transition-opacity duration-200">
-                            {item.title}
-                          </span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton 
+                    asChild
+                    className="w-full text-purple-800 hover:bg-purple-200"
+                  >
+                    <SidebarTrigger className="flex items-center gap-3 px-3 py-2 w-full justify-start text-purple-800 hover:bg-purple-200">
+                      <Menu className="size-5" />
+                      <span className="font-medium text-sm">Menu</span>
+                    </SidebarTrigger>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
-        ))}
+        </div>
+
+        {/* Main navigation items centered vertically */}
+        <div className="flex-1 flex items-center justify-center">
+          {data.navMain.map((group) => (
+            <SidebarGroup key={group.items[0].title}>
+              <SidebarGroupContent>
+                <SidebarMenu className="space-y-4">
+                  {group.items.map((item) => {
+                    const isActive = 
+                      pathname === item.url || 
+                      (pathname === "/dashboard" && item.title === "Beranda") ||
+                      (pathname.startsWith(item.url + "/"));
+                    
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton 
+                          asChild 
+                          isActive={isActive}
+                          tooltip={item.title}
+                          className={`w-full text-purple-800 hover:bg-purple-200 ${isActive ? 'bg-purple-300' : ''}`}
+                        >
+                          <Link href={item.url} className="flex items-center gap-3 px-3 py-2 text-purple-800">
+                            <span className="flex-shrink-0">
+                              {item.icon}
+                            </span>
+                            <span className="font-medium text-sm">
+                              {item.title}
+                            </span>
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
+        </div>
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
