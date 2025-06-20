@@ -1,58 +1,145 @@
-[
-  { 
-    "id": "1", 
-    "userName": "Ahmad Fajar", 
-    "itemName": "Laptop HP EliteBook", 
-    "startDate": "2025-05-10", 
-    "endDate": "2025-05-17", 
-    "status": "request" 
-  },
-  { 
-    "id": "2", 
-    "userName": "Dewi Sartika", 
-    "itemName": "Proyektor Epson", 
-    "startDate": "2025-05-15", 
-    "endDate": "2025-05-18", 
-    "status": "in-progress" 
-  },
-  { 
-    "id": "3", 
-    "userName": "Budi Santoso", 
-    "itemName": "Kamera Canon EOS", 
-    "startDate": "2025-05-20", 
-    "endDate": "2025-05-23", 
-    "status": "return" 
-  },
-  { 
-    "id": "4", 
-    "userName": "Rina Wijaya", 
-    "itemName": "iPad Pro", 
-    "startDate": "2025-05-05", 
-    "endDate": "2025-05-12", 
-    "status": "completed" 
-  },
-  { 
-    "id": "5", 
-    "userName": "Hadi Prasetyo", 
-    "itemName": "Microphone Wireless", 
-    "startDate": "2025-05-18", 
-    "endDate": "2025-05-20", 
-    "status": "request" 
-  },
-  { 
-    "id": "6", 
-    "userName": "Nita Anggraini", 
-    "itemName": "Tripod Kamera", 
-    "startDate": "2025-05-14", 
-    "endDate": "2025-05-21", 
-    "status": "in-progress" 
-  },
-  { 
-    "id": "7", 
-    "userName": "Rudi Hermawan", 
-    "itemName": "Scanner Document", 
-    "startDate": "2025-05-08", 
-    "endDate": "2025-05-15", 
-    "status": "completed" 
-  }
-]
+{
+  "_comment": "Transaction Data Structure - Status represents both workflow state and transaction type: 'request' (peminjaman), 'return' (pengembalian), 'in-progress' (approved), 'decline' (rejected), 'complete' (return accepted), 'pending' (return declined).",
+  "transactions": [
+    {
+      "id": "1",
+      "userId": "user_001",
+      "userName": "Muhammad Hafiz",
+      "userEmail": "hafiz@example.com",
+      "itemId": "item_001",
+      "itemName": "X BOX 360",
+      "startDate": "2025-06-15",
+      "endDate": "2025-06-22",
+      "status": "request",
+      "avatar": "MH",
+      "createdAt": "2025-06-15T08:00:00Z",
+      "updatedAt": "2025-06-15T08:00:00Z"
+    },
+    {
+      "id": "2",
+      "userId": "user_002",
+      "userName": "Ahmad Farid",
+      "userEmail": "farid@example.com",
+      "itemId": "item_002",
+      "itemName": "Joystick",
+      "startDate": "2025-06-14",
+      "endDate": "2025-06-21",
+      "status": "in-progress",
+      "avatar": "AF",
+      "createdAt": "2025-06-14T08:00:00Z",
+      "updatedAt": "2025-06-15T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "userId": "user_003",
+      "userName": "Siti Aisyah",
+      "userEmail": "siti@example.com",
+      "itemId": "item_003",
+      "itemName": "Laptop Gaming",
+      "startDate": "2025-06-13",
+      "endDate": "2025-06-20",
+      "status": "decline",
+      "avatar": "SA",
+      "createdAt": "2025-06-13T08:00:00Z",
+      "updatedAt": "2025-06-13T16:00:00Z"
+    },
+    {
+      "id": "4",
+      "userId": "user_004",
+      "userName": "Budi Santoso",
+      "userEmail": "budi@example.com",
+      "itemId": "item_004",
+      "itemName": "Kamera DSLR",
+      "startDate": "2025-06-12",
+      "endDate": "2025-06-19",
+      "status": "return",
+      "avatar": "BS",
+      "createdAt": "2025-06-12T08:00:00Z",
+      "updatedAt": "2025-06-19T18:00:00Z"
+    },
+    {
+      "id": "5",
+      "userId": "user_005",
+      "userName": "Rudi Hartono",
+      "userEmail": "rudi@example.com",
+      "itemId": "item_005",
+      "itemName": "Proyektor",
+      "startDate": "2025-06-11",
+      "endDate": "2025-06-18",
+      "status": "complete",
+      "avatar": "RH",
+      "createdAt": "2025-06-11T08:00:00Z",
+      "updatedAt": "2025-06-18T14:00:00Z"
+    },
+    {
+      "id": "6",
+      "userId": "user_006",
+      "userName": "Muhammad Iqbal",
+      "userEmail": "iqbal@example.com",
+      "itemId": "item_006",
+      "itemName": "Headset Gaming",
+      "startDate": "2025-06-16",
+      "endDate": "2025-06-23",
+      "status": "pending",
+      "avatar": "MI",
+      "createdAt": "2025-06-16T09:00:00Z",
+      "updatedAt": "2025-06-16T09:00:00Z"
+    },
+    {
+      "id": "7",
+      "userId": "user_007",
+      "userName": "Dewi Sartika",
+      "userEmail": "dewi@example.com",
+      "itemId": "item_007",
+      "itemName": "Mouse Gaming",
+      "startDate": "2025-06-15",
+      "endDate": "2025-06-22",
+      "status": "request",
+      "avatar": "DS",
+      "createdAt": "2025-06-15T09:00:00Z",
+      "updatedAt": "2025-06-16T10:00:00Z"
+    },
+    {
+      "id": "8",
+      "userId": "user_008",
+      "userName": "Andi Pratama",
+      "userEmail": "andi@example.com",
+      "itemId": "item_008",
+      "itemName": "Keyboard Mechanical",
+      "startDate": "2025-06-14",
+      "endDate": "2025-06-19",
+      "status": "return",
+      "avatar": "AP",
+      "createdAt": "2025-06-14T09:00:00Z",
+      "updatedAt": "2025-06-14T16:00:00Z"
+    },
+    {
+      "id": "9",
+      "userId": "user_009",
+      "userName": "Maya Sari",
+      "userEmail": "maya@example.com",
+      "itemId": "item_009",
+      "itemName": "Webcam HD",
+      "startDate": "2025-06-13",
+      "endDate": "2025-06-20",
+      "status": "in-progress",
+      "avatar": "MS",
+      "createdAt": "2025-06-13T09:00:00Z",
+      "updatedAt": "2025-06-20T18:00:00Z"
+    },
+    {
+      "id": "10",
+      "userId": "user_010",
+      "userName": "Nining Kusuma",
+      "userEmail": "nining@example.com",
+      "itemId": "item_002",
+      "itemName": "Joystick",
+      "startDate": "2025-06-19",
+      "endDate": "2025-06-19",
+      "status": "in-progress",
+      "avatar": "NK",
+      "createdAt": "2025-06-19T10:00:00Z",
+      "updatedAt": "2025-06-19T15:00:00Z"
+    }
+  ]
+}

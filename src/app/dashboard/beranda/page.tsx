@@ -14,7 +14,7 @@ import {  Drawer,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer"
-import { PlusIcon, Pencil1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons"
+import { PlusIcon, Pencil1Icon, MagnifyingGlassIcon, TrashIcon } from "@radix-ui/react-icons"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { InfoCard } from "@/components/ui/info-card"
 
@@ -43,7 +43,7 @@ export default function BerandaPage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const [currentItem, setCurrentItem] = useState<Item | null>(null)
   const [isAddMode, setIsAddMode] = useState<boolean>(false)
-    const [infoData, setInfoData] = useState<InfoData[]>(aturanData.info)
+  const [infoData, setInfoData] = useState<InfoData[]>(aturanData.info)
   
   // Filter items when search query changes
   useEffect(() => {
@@ -58,11 +58,14 @@ export default function BerandaPage() {
       setFilteredItems(filtered)
     }
   }, [searchQuery, items])
-  
-  const handleEditItem = (item: Item) => {
+    const handleEditItem = (item: Item) => {
     setCurrentItem(item)
     setIsAddMode(false)
     setIsDrawerOpen(true)
+  }
+  
+  const handleDeleteItem = (itemId: number) => {
+    setItems(items.filter(item => item.id !== itemId))
   }
   
   const handleAddItem = () => {
@@ -92,13 +95,11 @@ export default function BerandaPage() {
     // Simulate API call with a delay
     return new Promise<void>((resolve) => {
       setTimeout(() => {
-        // In a real application, you would upload the image and save the content to your backend
         setInfoData(prev => prev.map(item => {
           if (item.id === id) {
             return {
               ...item,
               content,
-              // In a real application, the imageUrl would come from your backend after upload
               imageUrl: imageFile ? URL.createObjectURL(imageFile) : item.imageUrl
             }
           }
@@ -108,53 +109,55 @@ export default function BerandaPage() {
       }, 1000)
     })
   }
-  
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
+    return (
+    <div className="flex flex-col gap-6 p-2">
+      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
         <SectionOverview
           title="Statistik Peminjaman"
           description="placeholder desc"
         />
-      </div>
-      <div className="bg-white p-4 rounded-xl shadow">
+      </div><div className="bg-white p-6 rounded-2xl shadow-sm border">
         <div className="flex items-center justify-between mb-4">
           <div className="relative flex-1 max-w-sm">
             <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Cari item..."
-              className="pl-8"
+              className="pl-8 rounded-lg"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </div>
-          <Button onClick={handleAddItem}>
+          </div><Button onClick={handleAddItem} className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
             <PlusIcon className="mr-1" /> Tambah Item
           </Button>
         </div>
-        
-        <ScrollArea className="h-[400px] rounded-md border">
-          <Table>
-            <TableHeader>
+          <ScrollArea className="h-[400px] rounded-xl border border-gray-200">
+          <Table><TableHeader>
               <TableRow className="bg-muted/50">
-                <TableHead className="w-[80px] py-3">No</TableHead>
-                <TableHead className="py-3">Nama Barang</TableHead>
-                <TableHead className="py-3">Jumlah Tersedia</TableHead>
-                <TableHead className="py-3">Jumlah Peminjam</TableHead>
-                <TableHead className="text-right py-3 w-[120px]">Aksi</TableHead>
+                <TableHead className="w-[80px] py-3 text-center">NO</TableHead>
+                <TableHead className="py-3 text-left">Nama Barang</TableHead>
+                <TableHead className="py-3 text-center">Jumlah Tersedia</TableHead>
+                <TableHead className="py-3 text-center">Jumlah Peminjam</TableHead>
+                <TableHead className="text-center py-3 w-[150px]">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredItems.map((item) => (
                 <TableRow key={item.id} className="hover:bg-muted/30">
-                  <TableCell className="py-3 font-medium">{item.no}</TableCell>
-                  <TableCell className="py-3">{item.nama}</TableCell>
-                  <TableCell className="py-3">{item.jumlah_tersedia}</TableCell>
-                  <TableCell className="py-3">{item.jumlah_peminjam}</TableCell>
-                  <TableCell className="text-right py-3">
-                    <Button variant="outline" size="sm" onClick={() => handleEditItem(item)}>
-                      <Pencil1Icon className="mr-1 h-4 w-4" /> Edit
-                    </Button>
+                  <TableCell className="py-3 font-medium text-center">{item.no}</TableCell>
+                  <TableCell className="py-3 text-left">{item.nama}</TableCell>
+                  <TableCell className="py-3 text-center">{item.jumlah_tersedia}</TableCell>
+                  <TableCell className="py-3 text-center">{item.jumlah_peminjam}</TableCell>
+                  <TableCell className="text-center py-3">
+                    <div className="flex items-center justify-center gap-2">
+                      <Button variant="outline" size="sm" onClick={() => handleEditItem(item)} className="gap-1">
+                        <Pencil1Icon className="h-4 w-4" />
+                        Edit
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => handleDeleteItem(item.id)} className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50">
+                        <TrashIcon className="h-4 w-4" />
+                        Delete
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -227,11 +230,10 @@ export default function BerandaPage() {
                 />
               </div>
             </div>
-          </div>
-          <DrawerFooter>
-            <Button onClick={handleSaveItem}>Simpan</Button>
+          </div>          <DrawerFooter>
+            <Button onClick={handleSaveItem} className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Simpan</Button>
             <DrawerClose asChild>
-              <Button variant="outline">Batal</Button>
+              <Button variant="outline" className="rounded-lg">Batal</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>
