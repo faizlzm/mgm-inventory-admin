@@ -9,7 +9,6 @@ import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -142,14 +141,8 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center">
-              <div className="flex items-center gap-2">
-                <Checkbox id="remember-me" disabled={isLoading} />
-                <Label htmlFor="remember-me" className="font-normal">
-                  Remember me
-                </Label>
-              </div>
               <Link
-                href="#"
+                href="/forgot-password"
                 className="ml-auto inline-block text-sm text-destructive hover:underline"
               >
                 Forgot Password

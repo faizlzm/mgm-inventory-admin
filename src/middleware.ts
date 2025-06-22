@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // 3. Definisikan rute publik yang tidak memerlukan login
-  const publicPaths = ["/login", "/signup"];
+  const publicPaths = ["/login", "/signup", "/forgot-password"];
 
   // 4. Cek apakah path saat ini adalah rute yang dilindungi
   // Rute dilindungi adalah semua rute kecuali rute publik
