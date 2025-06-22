@@ -76,7 +76,7 @@ export default function SignUpPage() {
         <div className="text-center">
           <div className="mb-4 inline-block">
             <Image
-              src="images/mgm.svg"
+              src="/mgm.svg"
               alt="MGM Laboratory Logo"
               width={150}
               height={150}

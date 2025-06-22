@@ -1,21 +1,11 @@
-// src/app/api/auth/login/route.ts
-
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    // Ambil body (nim dan password) dari request yang dikirim oleh form login
     const body = await request.json();
     const { nim, password } = body;
 
-    if (!nim || !password) {
-      return NextResponse.json(
-        { success: false, message: "NIM and password are required" },
-        { status: 400 }
-      );
-    }
-
-    // Kirim request ke API backend yang sebenarnya
+    // Panggil backend utama Anda untuk autentikasi
     const apiResponse = await fetch(
       "https://mgm-inventory-be.vercel.app/api/v1/auth/login",
       {
@@ -23,41 +13,57 @@ export async function POST(request: Request) {
         headers: {
           "Content-Type": "application/json",
         },
-        // Pastikan body yang dikirim sesuai dengan format yang diminta backend
         body: JSON.stringify({ nim, password }),
       }
     );
 
-    // Ambil data JSON dari respons backend
     const data = await apiResponse.json();
 
-    // Debug: log response dari backend
-    console.debug("Backend login response:", {
-      status: apiResponse.status,
-      ok: apiResponse.ok,
-      data,
-    });
-
-    // 4. Periksa apakah request ke backend berhasil atau tidak
     if (!apiResponse.ok) {
-      // Jika backend mengembalikan error (misal: password salah), teruskan pesan errornya
-      console.error("Login failed:", data.message ?? "Unknown error");
+      // Jika login gagal, kembalikan pesan error seperti biasa
       return NextResponse.json(
-        { success: false, message: data.message ?? "An error occurred" },
+        { success: false, message: data.message ?? "Login failed" },
         { status: apiResponse.status }
       );
     }
 
-    // Debug: log success jika login berhasil
-    console.info("Login successful:", data);
+    // Jika login berhasil:
+    const { accessToken, refreshToken } = data.data;
 
-    // 5. Jika berhasil, teruskan respons dari backend ke client (frontend)
-    // Kita bisa mengatur cookie di sini jika perlu, tapi untuk sekarang kita teruskan saja datanya
-    return NextResponse.json(data, { status: 200 });
+    // Buat respons
+    const response = NextResponse.json({
+      success: true,
+      message: "Login successful",
+      data: {
+        // Anda bisa memilih untuk tidak mengirim token lagi di body
+        // atau tetap mengirimnya jika UI memerlukannya sesaat setelah login
+      },
+    });
+
+    // Atur accessToken di dalam HttpOnly cookie
+    response.cookies.set("accessToken", accessToken, {
+      httpOnly: true, // Wajib: Agar tidak bisa diakses JS di browser
+      secure: process.env.NODE_ENV === "production", // Wajib: Hanya dikirim via HTTPS di produksi
+      sameSite: "strict", // Wajib: Untuk keamanan CSRF
+      path: "/", // Berlaku untuk seluruh path di aplikasi
+      maxAge: 60 * 60, // Contoh: Cookie berlaku selama 1 jam (dalam detik)
+    });
+
+    // Anda juga bisa menyimpan refreshToken dengan cara yang sama,
+    // mungkin dengan maxAge yang lebih lama
+    response.cookies.set("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // Contoh: 7 hari
+    });
+
+    return response;
   } catch (error) {
     console.error("Login API route error:", error);
     return NextResponse.json(
-      { success: false, message: "Internal Server Error" },
+      { success: false, message: "An internal server error occurred." },
       { status: 500 }
     );
   }

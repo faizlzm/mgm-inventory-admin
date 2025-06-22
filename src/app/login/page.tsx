@@ -70,15 +70,15 @@ export default function LoginPage() {
   return (
     <main className="grid min-h-screen w-full grid-cols-1 lg:grid-cols-2">
       {/* Left Panel */}
-      <div className="bg-blue-700 hover:bg-blue-800 relative hidden items-center justify-center rounded-r-2xl lg:flex">
+      <div className="bg-blue-700 relative hidden items-center justify-center rounded-r-2xl lg:flex">
         <div className="text-center">
           <div className="mb-4 inline-block">
             <Image
-              src="images/mgm.svg"
+              src="/mgm.svg"
               alt="MGM Laboratory Logo"
               width={150}
               height={150}
-              className="h-50 w-50"
+              className="h-auto w-auto"
             />
           </div>
         </div>
