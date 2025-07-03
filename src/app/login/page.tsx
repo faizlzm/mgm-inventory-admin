@@ -43,13 +43,8 @@ export default function LoginPage() {
       // Jika login berhasil
       console.log("Login successful:", data);
 
-      // Simpan token ke localStorage (atau cara lain yang lebih aman seperti httpOnly cookie)
-      if (data.data.accessToken) {
-        localStorage.setItem("accessToken", data.data.accessToken);
-      }
-      if (data.data.refreshToken) {
-        localStorage.setItem("refreshToken", data.data.refreshToken);
-      }
+      // Tokens are automatically stored in HttpOnly cookies by the API
+      // No need to manually handle tokens in localStorage
 
       // Arahkan pengguna ke halaman dashboard
       router.push("/dashboard/beranda");
