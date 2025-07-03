@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { SectionOverview } from "@/components/section-overview";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,7 +39,6 @@ import {
   MagnifyingGlassIcon,
   TrashIcon,
   ReloadIcon,
-  ExitIcon,
 } from "@radix-ui/react-icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { InfoCard } from "@/components/ui/info-card";
@@ -63,7 +61,6 @@ interface InfoData {
 }
 
 export default function BerandaPage() {
-  const router = useRouter();
   const [items, setItems] = useState<Item[]>([]);
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -74,34 +71,11 @@ export default function BerandaPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showSaveConfirmation, setShowSaveConfirmation] = useState<boolean>(false);
 
   // Function to shorten ID display
   const shortenId = (id: string) => {
     return id.length > 8 ? `${id.substring(0, 8)}...` : id;
-  };
-
-  // Function to handle logout
-  const handleLogout = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch('/api/auth/logout', {
-        method: 'POST',
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        // Redirect to login page
-        router.push('/login');
-      } else {
-        setError('Failed to logout');
-      }
-    } catch (err) {
-      setError('Failed to logout');
-      console.error('Logout error:', err);
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   // Clear messages after a delay
@@ -262,6 +236,10 @@ export default function BerandaPage() {
   };
 
   const handleSaveItem = async () => {
+    setShowSaveConfirmation(true);
+  };
+
+  const confirmSaveItem = async () => {
     if (currentItem) {
       try {
         setIsLoading(true);
@@ -279,6 +257,7 @@ export default function BerandaPage() {
           setSuccessMessage('Item updated successfully');
         }
         setIsDrawerOpen(false);
+        setShowSaveConfirmation(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to save item');
       } finally {
@@ -315,40 +294,6 @@ export default function BerandaPage() {
   };
   return (
     <div className="flex flex-col gap-6 p-2">
-      {/* Header with logout button */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Dashboard Beranda</h1>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="outline"
-              className="gap-2 text-red-600 hover:text-red-700 hover:bg-red-50"
-              disabled={isLoading}
-            >
-              <ExitIcon className="h-4 w-4" />
-              Logout
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Konfirmasi Logout</AlertDialogTitle>
-              <AlertDialogDescription>
-                Apakah Anda yakin ingin logout? Anda akan diarahkan ke halaman login.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Batal</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                Logout
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-
       {/* Error notification */}
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
@@ -391,33 +336,13 @@ export default function BerandaPage() {
               <ReloadIcon className={`mr-1 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
               Refresh
             </Button>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                  disabled={isLoading}
-                >
-                  <PlusIcon className="mr-1" /> Tambah Item
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Konfirmasi Tambah Item</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Apakah Anda yakin ingin menambahkan item baru?
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Batal</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleAddItem}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
-                    Tambah Item
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <Button
+              onClick={handleAddItem}
+              className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+              disabled={isLoading}
+            >
+              <PlusIcon className="mr-1" /> Tambah Item
+            </Button>
           </div>
         </div>
         <ScrollArea className="h-[400px] rounded-xl border border-gray-200">
@@ -471,36 +396,16 @@ export default function BerandaPage() {
                     </TableCell>
                     <TableCell className="text-center py-3">
                       <div className="flex items-center justify-center gap-2">
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="gap-1"
-                              disabled={isLoading}
-                            >
-                              <Pencil1Icon className="h-4 w-4" />
-                              Edit
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Konfirmasi Edit</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Apakah Anda yakin ingin mengedit item &quot;{item.name}&quot;?
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Batal</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => handleEditItem(item)}
-                                className="bg-blue-600 hover:bg-blue-700"
-                              >
-                                Edit
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                        <Button
+                          onClick={() => handleEditItem(item)}
+                          variant="outline"
+                          size="sm"
+                          className="gap-1"
+                          disabled={isLoading}
+                        >
+                          <Pencil1Icon className="h-4 w-4" />
+                          Edit
+                        </Button>
                         
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
@@ -560,7 +465,12 @@ export default function BerandaPage() {
         ))}
       </div>
 
-      <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+      <Drawer open={isDrawerOpen} onOpenChange={(open) => {
+        setIsDrawerOpen(open);
+        if (!open) {
+          setShowSaveConfirmation(false);
+        }
+      }}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>
@@ -616,13 +526,39 @@ export default function BerandaPage() {
             </div>
           </div>{" "}
           <DrawerFooter>
-            <Button
-              onClick={handleSaveItem}
-              className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-              disabled={isLoading || !currentItem?.name || currentItem?.quantity < 0}
-            >
-              {isLoading ? 'Saving...' : 'Simpan'}
-            </Button>
+            <AlertDialog open={showSaveConfirmation} onOpenChange={setShowSaveConfirmation}>
+              <AlertDialogTrigger asChild>
+                <Button
+                  onClick={handleSaveItem}
+                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                  disabled={isLoading || !currentItem?.name || currentItem?.quantity < 0}
+                >
+                  {isLoading ? 'Saving...' : 'Simpan'}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {isAddMode ? 'Konfirmasi Tambah Item' : 'Konfirmasi Edit Item'}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {isAddMode 
+                      ? `Apakah Anda yakin ingin menambahkan item "${currentItem?.name}"?`
+                      : `Apakah Anda yakin ingin menyimpan perubahan pada item "${currentItem?.name}"?`
+                    }
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Batal</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={confirmSaveItem}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
+                    {isAddMode ? 'Tambah' : 'Simpan'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
             <DrawerClose asChild>
               <Button variant="outline" className="rounded-lg" disabled={isLoading}>
                 Batal
