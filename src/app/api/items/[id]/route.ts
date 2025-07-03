@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 1. Ambil token dari cookie (HttpOnly cookies tidak bisa diakses dari frontend)
@@ -15,7 +15,7 @@ export async function DELETE(
     }
 
     // 2. Ambil ID dari parameter
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -58,7 +58,7 @@ export async function DELETE(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 1. Ambil token dari cookie (HttpOnly cookies tidak bisa diakses dari frontend)
@@ -71,7 +71,7 @@ export async function GET(
     }
 
     // 2. Ambil ID dari parameter
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
@@ -114,7 +114,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 1. Ambil token dari cookie (HttpOnly cookies tidak bisa diakses dari frontend)
@@ -127,7 +127,7 @@ export async function PUT(
     }
 
     // 2. Ambil ID dari parameter
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
       return NextResponse.json(
