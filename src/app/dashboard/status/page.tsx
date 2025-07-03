@@ -301,10 +301,12 @@ export default function StatusPage() {
     
     // Apply completed/rejected filter
     if (!showCompleted) {
+      // When unchecked, show pending and approved borrow transactions (hide only completed and rejected)
       filtered = filtered.filter(transaction => 
-        !["borrow-approved", "borrow-rejected", "return-approved", "return-rejected"].includes(transaction.status)
+        ["borrow-pending", "return-pending", "borrow-approved"].includes(transaction.status)
       );
     }
+    // When checked, show all transactions (no filtering needed)
     
     // Sort by status priority and date
     filtered.sort((a, b) => {
@@ -441,11 +443,12 @@ export default function StatusPage() {
                     <p className="text-sm text-gray-500">
                       NIM: {transaction.userNIM} • {transaction.userProgramStudy}
                     </p>
-                  </div>                  
-                  {/* Date pill for pending requests */}
+                  </div>
+                  
+                  {/* Date span badge for pending requests */}
                   {(transaction.status === "borrow-pending" || transaction.status === "return-pending") && (
                     <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {formatDate(transaction.returnDate)}
+                      {formatDate(transaction.borrowDate)} - {formatDate(transaction.returnDate)}
                     </div>
                   )}
                   
