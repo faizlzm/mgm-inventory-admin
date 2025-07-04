@@ -301,9 +301,9 @@ export default function StatusPage() {
     
     // Apply completed/rejected filter
     if (!showCompleted) {
-      // When unchecked, show pending and approved borrow transactions (hide only completed and rejected)
+      // When unchecked, show pending, approved borrow transactions, and return-rejected (hide only completed and borrow-rejected)
       filtered = filtered.filter(transaction => 
-        ["borrow-pending", "return-pending", "borrow-approved"].includes(transaction.status)
+        ["borrow-pending", "return-pending", "borrow-approved", "return-rejected"].includes(transaction.status)
       );
     }
     // When checked, show all transactions (no filtering needed)
@@ -445,30 +445,30 @@ export default function StatusPage() {
                     </p>
                   </div>
                   
-                  {/* Date span badge for pending requests */}
-                  {(transaction.status === "borrow-pending" || transaction.status === "return-pending") && (
-                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                      {formatDate(transaction.borrowDate)} - {formatDate(transaction.returnDate)}
-                    </div>
-                  )}
-                  
-                  {/* Days Remaining Badge - Show for approved borrows */}
-                  {transaction.status === "borrow-approved" && (() => {
-                    const { days, isOverdue } = calculateDaysRemaining(transaction.returnDate)
-                    
-                    return (
-                      <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        isOverdue 
-                          ? "bg-red-100 text-red-800" 
-                          : "bg-green-100 text-green-800"
-                      }`}>
-                        {isOverdue ? `Terlambat ${days} hari` : `${days} hari lagi`}
-                      </div>
-                    )
-                  })()}
                   
                   {/* Status Badge or Actions */}
-                  <div className="flex items-center justify-end gap-2">                    
+                  <div className="flex items-center justify-end gap-2">
+                    {/* Time remaining/overdue badge - shown for approved borrows and return-rejected */}
+                    {(transaction.status === "borrow-approved" || transaction.status === "return-rejected") && (() => {
+                      const { days, isOverdue } = calculateDaysRemaining(transaction.returnDate);
+                      return (
+                        <div className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          isOverdue 
+                            ? "bg-red-100 text-red-800" 
+                            : "bg-green-100 text-green-800"
+                        }`}>
+                          {isOverdue ? `Terlambat ${days} hari` : `${days} hari lagi`}
+                        </div>
+                      );
+                    })()}
+
+                    {/* Date span badge for pending requests */}
+                    {(transaction.status === "borrow-pending" || transaction.status === "return-pending") && (
+                      <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {formatDate(transaction.borrowDate)} - {formatDate(transaction.returnDate)}
+                      </div>
+                    )}
+                                       
                     {(transaction.status === "borrow-pending" || transaction.status === "return-pending") ? (
                       <>
                           {/* Status pill */}
