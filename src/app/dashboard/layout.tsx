@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 import { AppSidebar } from "@/components/app-sidebar"
+import { LogoutButton } from "@/components/logout-button"
 import {
   SidebarInset,
   SidebarProvider,
@@ -38,8 +39,9 @@ export default function DashboardLayout({
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
       <SidebarInset>        <header className="flex flex-col shrink-0 border-b">
-          <div className="flex h-16 items-center gap-2 px-4">
+          <div className="flex h-16 items-center justify-between gap-2 px-4">
             <h1 className="text-base font-medium">{getPageTitle()}</h1>
+            <LogoutButton />
           </div>
           <div className="pb-2 px-4">
           </div>

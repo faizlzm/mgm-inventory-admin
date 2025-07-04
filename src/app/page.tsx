@@ -1,5 +1,10 @@
-import { redirect } from 'next/navigation'
+import { Metadata } from "next";
 
-export default function Page() {
-  redirect('/dashboard/beranda')
+export const metadata: Metadata = {
+  title: "Beranda | MGM Inventory System",
+  description: "Sistem manajemen inventaris dan peminjaman barang MGM",
+};
+
+export default function Home() {
+  return null;
 }
