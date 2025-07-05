@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import logo from "../../../public/mgm-logo.svg";
+
 export default function SignUpPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -76,7 +78,7 @@ export default function SignUpPage() {
         <div className="text-center">
           <div className="mb-4 inline-block">
             <Image
-              src="/mgm.svg"
+              src={logo}
               alt="MGM Laboratory Logo"
               width={150}
               height={150}

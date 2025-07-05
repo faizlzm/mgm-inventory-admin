@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="flex h-20 items-center px-6">
-        <h1 className="text-2xl font-bold">Logistix</h1>
+        <h1 className="text-2xl font-bold">Laboratorium MGM</h1>
       </header>
 
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 items-center p-6">

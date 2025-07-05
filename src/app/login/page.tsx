@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import logo from "../../../public/mgm-logo.svg"; // Adjust the path as necessary
+
 export default function LoginPage() {
   const router = useRouter();
   const [nim, setNim] = useState("");
@@ -68,7 +70,7 @@ export default function LoginPage() {
         <div className="text-center">
           <div className="mb-4 inline-block">
             <Image
-              src="/mgm.svg"
+              src={logo}
               alt="MGM Laboratory Logo"
               width={150}
               height={150}
